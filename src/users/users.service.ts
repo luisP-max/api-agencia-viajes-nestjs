@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Admin } from 'typeorm/driver/mongodb/typings.js';
 
 //interfaz para tipar de forma segura la estructura de los usuarios
 export interface UserInMemory {
