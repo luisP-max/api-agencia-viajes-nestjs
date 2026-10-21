@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Base de datos obligatoria para persistentar las cotizaciones
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: agencia_viajes_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cambia-esta-clave
+      POSTGRES_DB: agencia_viajes
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Contenedor opcional para visualizar Swagger de forma aislada si se requiere
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: agencia_viajes_swagger
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SWAGGER_JSON: /app/swagger.json
+    volumes:
+      - ./swagger.json:/app/swagger.json
+
+volumes:
+  pgdata:
+    driver: local
