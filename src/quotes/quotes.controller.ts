@@ -1,34 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { QuotesService } from './quotes.service.js';
-import { CreateQuoteDto } from './dto/create-quote.dto.js';
-import { UpdateQuoteDto } from './dto/update-quote.dto.js';
+import { Controller, Post, Body, Headers, BadRequestException } from "@nestjs/common";
+import { QuotesService } from "./quotes.service.js";
+import { CreateQuoteDto } from "./dto/create-quote.dto.js";
 
 @Controller('quotes')
 export class QuotesController {
   constructor(private readonly quotesService: QuotesService) {}
 
   @Post()
-  create(@Body() createQuoteDto: CreateQuoteDto) {
-    return this.quotesService.create(createQuoteDto);
-  }
+  async create(
+    @Body() CreateQuoteDto: CreateQuoteDto,
+    @Headers('x-user') xUser: string,
+  ) {
+    // validacion temporal para asegurar que envie el usuario
+    if (!xUser) {
+      throw new BadRequestException(' la cabeza de seguridad x-user es obligatorio')
+    }
 
-  @Get()
-  findAll() {
-    return this.quotesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.quotesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuoteDto: UpdateQuoteDto) {
-    return this.quotesService.update(+id, updateQuoteDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.quotesService.remove(+id);
+    return this.quotesService.create(CreateQuoteDto, xUser);
   }
 }
