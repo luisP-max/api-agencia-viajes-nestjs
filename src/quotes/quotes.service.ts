@@ -22,8 +22,17 @@ export class QuotesService {
     return await this.quoteRepository.save(newQuote);
   }
 
-  // los metodos findAll, findOne, update y remove lo modifique en los siguientes paso
-  findAll() {
-    return `this action returns all quotes`;
-  }
+  // Actualizamos el método findAll para recibir el objeto usuario inyectado por el Guard
+  async findAll(user: any): Promise<Quote[]> {
+    if (user.rol === 'asesor') {
+      return await this.quoteRepository.find({
+        where: { createdBy: user.username },
+        order: { createdAt: 'DESC' },
+      });
+    }
+  
+  return await this.quoteRepository.find({
+    order: { createdAt: 'DESC' },
+  });
+}
 }
