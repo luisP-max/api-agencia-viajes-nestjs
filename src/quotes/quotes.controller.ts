@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Headers, BadRequestException, UseGuards } from "@nestjs/common";
+import { Controller, Post, Body, Headers, BadRequestException, UseGuards, Get, Req } from "@nestjs/common";
 import { QuotesService } from "./quotes.service.js";
 import { CreateQuoteDto } from "./dto/create-quote.dto.js";
 import { RolesGuard } from "../users/guards/roles/roles.guard.js"; //aqui importe los guards de los roles
@@ -21,5 +21,11 @@ export class QuotesController {
     }
 
     return this.quotesService.create(CreateQuoteDto, xUser);
+  }
+
+  @Get()
+  @Roles('admin', 'gerente', 'asesor') // entre estos tres pueden consultar, pero el Guard aplicara el registro interno
+  async findAll(@Req() request:any) {
+    return this.quotesService.findAll(request.user);
   }
 }
