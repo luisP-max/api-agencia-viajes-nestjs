@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module.js';
 import { QuotesModule } from './quotes/quotes.module.js';
+import { APP_GUARD } from '@nestjs/core';
+import { ApiKeyGuard } from './users/guards/api-key/api-key.guard.js';
 
 @Module({
   imports: [
@@ -23,15 +25,21 @@ import { QuotesModule } from './quotes/quotes.module.js';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         autoLoadEntities: true, //registra de forma automatica las tablas/entidades que le agregamos
-        synchronize: true //sincroniza esquemas automaticamente
+        synchronize: true, //sincroniza esquemas automaticamente
       }),
     }),
 
+    //modulo de negocio
     UsersModule,
-
     QuotesModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    // registrar el ApiKeyGuard de forma global para TODA la aplicacion
+    {
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard,
+    },
+  ],
 })
 export class AppModule {}

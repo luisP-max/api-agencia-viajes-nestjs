@@ -1,0 +1,78 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/quotes": {
+      "post": {
+        "operationId": "QuotesController_create",
+        "parameters": [
+          {
+            "name": "x-user",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quotes"
+        ]
+      },
+      "get": {
+        "operationId": "QuotesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quotes"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "API Agencia de viajes",
+    "description": "Simulacro de sistema de cotizaciones con control de roles y API Key por cabeceras",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "x-api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      },
+      "x-user": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-user"
+      }
+    },
+    "schemas": {
+      "CreateQuoteDto": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}
