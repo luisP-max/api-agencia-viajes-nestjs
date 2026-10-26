@@ -45,6 +45,81 @@
           "Quotes"
         ]
       }
+    },
+    "/quotes/{id}": {
+      "get": {
+        "operationId": "QuotesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quotes"
+        ]
+      },
+      "patch": {
+        "operationId": "QuotesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quotes"
+        ]
+      },
+      "delete": {
+        "operationId": "QuotesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Quotes"
+        ]
+      }
     }
   },
   "info": {
@@ -70,6 +145,10 @@
     },
     "schemas": {
       "CreateQuoteDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateQuoteDto": {
         "type": "object",
         "properties": {}
       }
